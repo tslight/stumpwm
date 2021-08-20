@@ -1,0 +1,21 @@
+* THEO
+
+/If people keep adding such huge stuff, soon stumpwm will be bigger than
+emacs./
+
+[[https://openbsd.org][OpenBSD]]'s [[https://www.theos.com/deraadt/][Theo]] insults lifted from the [[https://cvsweb.openbsd.org/src/usr.bin/mg/Attic/theo.c?rev=1.152&content-type=text/x-cvsweb-markup][mg source tree]].
+
+** USAGE
+
+Fire this sucker up with:
+
+#+BEGIN_SRC common-lisp
+  (load-module "theo")
+#+END_SRC
+
+Then, run ~theo~ from the StumpWM prompt to get a semi insulting message. Or
+better yet - bind it to a key.
+
+#+BEGIN_SRC common-lisp
+  (define-key *root-map* (kbd "T") "theo")
+#+END_SRC

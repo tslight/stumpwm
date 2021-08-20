@@ -1,0 +1,2 @@
+* Miscellaneous StumpWM Commands
+** _Toby Slight <tslight@pm.me>_

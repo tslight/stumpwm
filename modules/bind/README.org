@@ -1,0 +1,50 @@
+* Bind Key
+
+Slightly less clunky that the standard method for key binding. Influenced by
+Emacs' [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][bind-key]], but not nearly as powerful or feature rich. This is just a
+couple of pretty basic macros..
+
+** Usage
+
+#+begin_src common-lisp
+  (load-module "bind")
+#+end_src
+
+The syntax is as follows:
+
+#+begin_src common-lisp
+  (bind:key
+   ,*key-map*
+   ("C-M-z" "some-amazing-stumpwm-command")
+   ("C-M-y" "some-other-amazing-stumpwm-command"))
+#+end_src
+
+** Examples
+
+To bind Emacs to =<Super> + e= & XTerm to =<Super> + t= in the =*top-map*=,
+would look like this:
+
+#+begin_src common-lisp
+  (bind:key
+   ,*top-map*
+   ("s-e" "exec emacs")
+   ("s-t" "exec xterm"))
+#+end_src
+
+To do something similar in the =*root-map*=:
+
+#+begin_src common-lisp
+  (bind:key
+   ,*root-map*
+   ("e" "exec emacs")
+   ("t" "exec xterm"))
+#+end_src
+
+=<Tab>= and =<Shift+Tab>= to go down and up menus.
+
+#+begin_src common-lisp
+  (bind:key
+   ,*menu-map*
+   ("TAB" 'menu-down)
+   ("ISO_Left_Tab" 'menu-up))
+#+end_src

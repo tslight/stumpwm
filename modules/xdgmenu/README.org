@@ -1,0 +1,22 @@
+* XDGMENU
+
+Generate a menu using [[https://freedesktop.org/wiki/Howto_desktop_files/][freedesktop.org]] .desktop files.
+
+** USAGE
+
+If run with an argument, the menu will be categorised, otherwise just a
+searchable list of all desktop files in XDG applications directories will be
+displayed.
+
+#+BEGIN_SRC common-lisp
+  (load-module "xdgmenu")
+#+END_SRC
+
+My configuration:
+
+#+BEGIN_SRC common-lisp
+  (define-key *top-map* (kbd "s-SPC") "xdgmenu")
+  (define-key *top-map* (kbd "s-.") "xdgmenu categories")
+  (define-key *root-map* (kbd "r") "xdgmenu")
+  (define-key *root-map* (kbd ".") "xdgmenu categories")
+#+END_SRC

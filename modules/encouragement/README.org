@@ -1,0 +1,34 @@
+* ENCOURAGEMENT
+
+/Scientifically-proven optimal words of hackerish encouragement./
+
+Inspired by the messages printed when starting Emacs' slime mode.
+
+Strings lifted from [[https://github.com/kovisoft/slimv/blob/master/slime/slime.el#L1360][here]].
+
+** USAGE
+
+Fire this sucker up with:
+
+#+BEGIN_SRC common-lisp
+(load-module "encouragement")
+#+END_SRC
+
+Then, run ~stump-encouragement~ from the StumpWM prompt to get an encouraging
+message. Or better yet - bind it to a key.
+
+#+BEGIN_SRC common-lisp
+(define-key *root-map* (kbd "E") "encouragement")
+#+END_SRC
+
+I recommend adding the snippet below to your ~.stumpwmrc~ to get encouraged
+every time you start StumpWM :-)
+
+#+BEGIN_SRC common-lisp
+  (setf *startup-message* (concat
+                           "^B^5Welcome to StumpWM~%^n"
+                           (encouragement:random-encouragement)))
+#+END_SRC
+
+Exposes ~*words-of-encouragement*~ as a list that you can add your own
+encouraging messages to.

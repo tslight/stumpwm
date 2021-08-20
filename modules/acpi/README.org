@@ -1,0 +1,25 @@
+* ACPI
+
+Add basic battery information to the modeline. Depends on Linux's ~acpi~
+package.
+
+Use ~%B~ to add to the modeline.
+
+Exports the following variables:
+
+#+BEGIN_SRC common-lisp
+(defvar *battery-refresh-time* 30
+  "Time in seconds between updates of battery information.")
+
+(defvar *red* 25
+  "Percentage at which the battery information turns red.")
+
+(defvar *yellow* 50
+  "Percentage at which the battery information turns yellow.")
+
+(defvar *green* 75
+  "Percentage at which the battery information turns green.")
+
+(defvar *disappear* 96
+  "Percentage at which the battery information disappears from the modeline.")
+#+END_SRC

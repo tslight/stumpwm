@@ -1,0 +1,15 @@
+* VOLUME
+
+Display volume changes in a stumpwm message.
+
+#+BEGIN_SRC common-lisp
+  (load-module "volume")
+#+END_SRC
+
+My setup:
+
+#+BEGIN_SRC common-lisp
+  (define-key *top-map* (kbd "XF86AudioLowerVolume") "volume Master 5%-")
+  (define-key *top-map* (kbd "XF86AudioRaiseVolume") "volume Master 5%+")
+  (define-key *top-map* (kbd "XF86AudioMute") "volume Master toggle")
+#+END_SRC

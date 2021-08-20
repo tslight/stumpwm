@@ -1,0 +1,4 @@
+* BRIGHTNESS CONTROL
+
+This module depends on the brightnessctl Linux command line utility for
+changing monitor backlighting.

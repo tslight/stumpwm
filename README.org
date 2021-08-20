@@ -1,0 +1,120 @@
+#+TITLE: HACKS AND GLORY AWAIT!
+#+AUTHOR: Toby Slight
+#+PROPERTY: header-args :cache yes
+#+PROPERTY: header-args+ :mkdirp yes
+#+PROPERTY: header-args+ :results silent
+#+ATTR_HTML: :width 100px
+#+ATTR_LATEX: :width 100px
+#+ATTR_ORG: :width 100
+[[./img/scrot.png]]
+
+#+BEGIN_QUOTE
+Stumpwm is a "everything-and-the-kitchen-sink WM" or "the emacs of WMs."
+
+StumpWM manages windows the way emacs manages buffers, or the way screen
+manages terminals. If you want a flexible, customizable, hackable desktop
+experience, look no further.
+
+-- [[https://github.com/stumpwm/stumpwm][StumpWM GitHub]]
+#+END_QUOTE
+
+* INSTALLATION
+*** ANSIBLE
+
+Use the playbook below. Also found in [[https://gitlab.com/tspub/devops/ansible/-/blob/master/home/09-stumpwm.yml][my Ansible repo]]
+
+#+BEGIN_SRC yaml
+  - name: Install StumpWM from Quicklisp
+    hosts: localhost
+    vars:
+      qldir: '{{ansible_env.HOME}}/quicklisp'
+      qlpath: '{{ansible_env.HOME}}/quicklisp.lisp'
+      slpath: '{{ansible_env.HOME}}/quicklisp/setup.lisp'
+    tasks:
+
+    - name: Download Quicklisp
+      get_url:
+        url: https://beta.quicklisp.org/quicklisp.lisp
+        dest: '{{qlpath}}'
+
+    - name: Check if Quicklisp already installed
+      stat:
+        path: '{{slpath}}'
+      register: setup
+
+    - name: Install Quicklisp
+      shell: |
+        sbcl --load {{qlpath}} --eval '(quicklisp-quickstart:install)'
+        sbcl --load {{slpath}} --eval '(ql:add-to-init-file)'
+      when: not setup.stat.exists
+
+    - name: Install StumpWM and StumpWM contrib packages
+      shell: |
+        sbcl --load {{slpath}} --eval '(ql:quickload :stumpwm)'
+        sbcl --load {{slpath}} --eval '(ql:quickload :xembed)'
+        sbcl --load {{slpath}} --eval '(ql:quickload :swank)'
+        sbcl --load {{slpath}} --eval '(ql:quickload :quicklisp-slime-helper)'
+        sbcl --load {{slpath}} --eval '(ql:quickload :zpng)'
+#+END_SRC
+
+*** MANUAL
+
+Get Quicklisp from [[https://www.quicklisp.org/beta/][here]]:
+
+#+BEGIN_SRC bash
+  curl -O https://beta.quicklisp.org/quicklisp.lisp
+  curl -O https://beta.quicklisp.org/quicklisp.lisp.asc
+  gpg --verify quicklisp.lisp.asc quicklisp.lisp
+#+END_SRC
+
+Then load it into the REPL with:
+
+#+BEGIN_SRC bash
+  sbcl --load quicklisp.lisp
+#+END_SRC
+
+From the REPL, install it:
+
+#+BEGIN_SRC common-lisp
+  (quicklisp-quickstart:install)
+#+END_SRC
+
+And make sure you have added it to your lisp init file using:
+
+#+BEGIN_SRC common-lisp
+  (ql:add-to-init-file)
+#+END_SRC
+
+Install stumpwm and some packages we need for niceties.
+
+#+BEGIN_SRC common-lisp
+  (ql:quickload :stumpwm)                ;; Install stumpwm
+  (ql:quickload :xembed)                 ;; Required by stumptray
+  (ql:quickload :clx-truetype)           ;; Required by ttf-fonts
+  (ql:quickload :swank)                  ;; Required by slime-connect
+  (ql:quickload :quicklisp-slime-helper) ;; Required by slime-connect
+  (ql:quickload :zpng)                   ;; Required by screenshot
+#+END_SRC
+
+** STARTUP FILES
+
+Next add the following line to your .xinitrc to be able to run with ~startx~:
+
+#+BEGIN_SRC bash :tangle ~/.xinitrc
+  sbcl --eval '(require :stumpwm)' --eval '(stumpwm:stumpwm)'
+#+END_SRC
+
+** ADDITIONAL MODULES
+
+Clone the [[https://github.com/stumpwm/stumpwm-contrib.git][StumpWM Contrib]] repo to =~/.stumpwm-contrib=. I am using a few
+modules from this source.
+
+The rest of my own custom modules can be located [[file:modules/README.org][here]].
+
+* INSPIRATIONS
+
+https://dataswamp.org/~solene/2016-06-06-stumpwm.html
+
+https://github.com/areina/stumpwm.d
+
+https://github.com/stumpwm/stumpwm/wiki/Customize

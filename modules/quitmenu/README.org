@@ -1,0 +1,8 @@
+** Quit Menu
+
+   This module provides commands and a menu to gracefully close all open
+   programs and shutdown or reboot the computer. A logout command is also
+   provided.
+
+   This module requires the use of =systemd=, and requires the =polkit= package
+   to be installed, as well as the =wmctl= command.

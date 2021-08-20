@@ -1,0 +1,66 @@
+* MODELINE SENSORS DISPLAY
+
+View average and maximum ~sensors~ temperatures and fan RPM in the modeline.
+
+** PRE-REQUISITES
+
+Running Linux with ~lm-sensors~ installed.
+
+** USAGE
+
+To load this module, place ~(load-module sensors)~ in your ~.stumpwmrc~.
+
+Sensors information is then available to display in the modeline using ~%S~ in
+your modeline config.
+
+As an example, here is my modeline config:
+
+#+BEGIN_SRC common-lisp
+  (setf *screen-mode-line-format*
+        (list "^3^B%d ^2[%n] ^7%v ^n ^> %S %T"))
+#+END_SRC
+
+The following variables are exported
+
+#+BEGIN_SRC common-lisp
+  (defvar *sensors-refresh-time* 30
+    "Time in seconds between updates of sensors information.")
+
+  (defvar *red-above-temp* 60
+    "Temperature to turn red at.")
+
+  (defvar *yellow-above-temp* 50
+    "Temperature to turn yellow at.")
+
+  (defvar *display-above-temp* 40
+    "Temperature to start displaying at.")
+
+  (defvar *red-above-rpm* 4000
+    "Fan RPM to turn red at.")
+
+  (defvar *yellow-above-rpm* 3000
+    "Fan RPM to turn yellow at.")
+
+  (defvar *display-above-rpm* 2000
+    "Fan RPM to start displaying at.")
+
+  (defvar *ignore-below* 20
+    "Ignore temperatures below this temperature when calculating average.")
+#+END_SRC
+
+** CAVEATS
+
+This module only displays average (and maximum for temperature) temperature and
+fan RPM, not all sensors. It would be good to make it more configurable in this
+respect.
+
+Also, I'm very new to Common Lisp, so the code is pretty hacky. I'd welcome any
+advice on how to make it better.
+
+Also credit must go to the author of [[https://github.com/tslight/stumpwm-contrib/tree/master/modeline/battery-portable][Battery Portable]] for the ~*refresh-time*~
+logic.
+
+** EXTRA
+
+As an extra bonus this module contains the stumpwm command ~sensors~ for viewing
+the same information in a message window.
